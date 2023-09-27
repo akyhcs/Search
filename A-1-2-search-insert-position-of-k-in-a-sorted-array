@@ -1,0 +1,58 @@
+//https://practice.geeksforgeeks.org/problems/search-insert-position-of-k-in-a-sorted-array/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+ 	{	InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int N = Integer.parseInt(bufferedReader.readLine().trim());
+		int arr[] = new int[N];
+		int k = 0;
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			arr[k++] = Integer.parseInt(str);
+		}
+		int testCases = Integer.parseInt(bufferedReader.readLine().trim());
+		while (testCases-- >= 1) {
+			int currentTarget = Integer.parseInt(bufferedReader.readLine());
+			
+			int pointOfInsertion = getPointOfInsertion(currentTarget,arr);
+			System.out.println(pointOfInsertion);
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static int getPointOfInsertion(int target, int[] arr) {
+		
+		
+		int l = 0 ;
+		int r = arr.length-1;
+				while (l<=r) {
+					int mid = l + (r-l)/2;
+					
+			       if(arr[mid]==target)
+					    return mid;
+
+						
+					else if(arr[mid] < target)
+					{
+						l = mid+1;
+					}
+					else
+					{
+						r = mid-1;
+					}
+				}//while
+		return l;
+	}
+
+
+
+}
