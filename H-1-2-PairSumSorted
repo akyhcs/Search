@@ -1,0 +1,119 @@
+/*
+Given a 1-indexed array of integers 
+nums that is already sorted in non-decreasing order, find two numbers such that they add up to a specific 
+target number. Let these two numbers be nums[index1] and nums[index2] where 1 ≤first<second ≤nums.
+length.
+
+Print the indices of the two numbers, index1 and index2.
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
+
+You must write an algorithm with O(nlogn)
+ runtime complexity.
+
+Input Format
+
+The first line of input contains 
+N, size of the array
+The second line of input contains N space-separated array elements nums[1],........,nums[N]
+The third line of the input contains a single integer target
+Constraints
+2 ≤ N ≤10^6
+−10^3≤nums[i], target≤10^3
+The tests are generated such that there is exactly one solution.
+Output Format
+
+Print the indices of the two numbers, 
+index1 and index2 whose sum is 
+target
+Sample Input 0
+
+4
+2 7 11 15
+9
+
+Sample Output 0
+
+1 2
+
+Sample Input 1
+
+3
+2 3 4
+6
+
+Sample Output 1
+
+1 3
+
+Sample Input 2
+
+2
+-1 0
+-1
+
+Sample Output 2
+
+1 2
+*/
+
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLineInput[] = bufferedReader.readLine().trim().split(" ");
+		int arrSize = Integer.parseInt(firstLineInput[0]);
+		int arr[] = new int[arrSize];
+		int i = 0;
+		for (String str : bufferedReader.readLine().trim().split(" ")) {
+			arr[i++] = Integer.parseInt(str);
+		}
+		int sum = Integer.parseInt(bufferedReader.readLine().trim());
+		for(int k =0 ;k<arrSize;k++)
+		{
+/*	
+8 
+1 2 3 4 4 9 56 90 
+8
+*/
+				int requiredTarget = sum-arr[k];
+				int requiredTargetIndex = binarySearch(arr, requiredTarget);
+				if(requiredTargetIndex!=-1 && requiredTargetIndex!=k)
+				{
+				    if(k<requiredTargetIndex)
+		        	    System.out.println((k+1)+" "+ (requiredTargetIndex+1));
+	                else
+	                {
+	           System.out.println((requiredTargetIndex+1)+" "+(k+1));
+	                }
+					break;
+				}
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static int binarySearch(int[] mat, int target) {
+		int l = 0;
+		int r = mat.length - 1;
+		while (l <= r) {
+			int mid = l + (r - l) / 2;
+			if (mat[mid] == target) {
+				return mid;
+			} else if (mat[mid] < target) {
+				l = mid + 1;
+			} else {
+				r = mid - 1;
+			}
+		}
+		return -1;
+	}
+
+}
