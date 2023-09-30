@@ -1,0 +1,32 @@
+//https://leetcode.com/problems/find-peak-element/
+
+class Solution {
+    public int findPeakElement(int[] arr) {
+		int low = 0;
+		int hi = arr.length - 1;
+		if (low == hi) {
+			return low;
+		}
+		else	if (arr[low] > arr[low + 1]) {
+			return low;
+		} else if (arr[hi] > arr[hi - 1]) {
+			return hi;
+		}
+		return binarySearch(low, hi, arr);
+    }
+    	private static int binarySearch(int low, int hi, int[] arr) {
+			
+		while (low <= hi) {			
+			int mid = low + (hi - low) / 2;
+			if (mid>0&&mid<arr.length&&arr[mid] > arr[mid + 1] && arr[mid] > arr[mid - 1]) {
+				return mid;
+			} else if (mid!=0 && arr[mid] < arr[mid - 1]) {
+				hi = mid - 1;// , arr);
+			} else if(mid+1!=arr.length)
+				{
+					low = mid + 1;// , hi, arr);
+				}
+		}
+		return -1;
+}
+}
