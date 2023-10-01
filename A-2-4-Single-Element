@@ -31,3 +31,94 @@ Input
 Output
 10
 */
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int arrSize = Integer.parseInt(bufferedReader.readLine().trim());
+		int arr[] = new int[arrSize];
+		int k = 0;
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			arr[k++] = Integer.parseInt(str);
+		}
+		int n = getSingleElement(arr);
+		System.out.println(n);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static int getSingleElement(int[] arr) {
+		int low=0;
+		int hi = arr.length-1;
+		///only if 1 element exist
+		if(low==hi)
+		{
+			return arr[low];
+		}
+		while(low<=hi)
+		{
+			int mid = low + (hi-low)/2;
+			
+			if(mid==0)
+			{
+				if(arr[mid]!=arr[mid+1])
+				{
+					return arr[mid];
+				}
+				else
+				{
+					low=mid+1;
+				}
+			}
+			else if(mid==arr.length-1)
+			{
+				if(arr[mid]!=arr[mid-1])
+				{
+					return arr[mid];
+				}
+				else
+				{
+					hi=mid-1;
+				}
+			}
+			else if(arr[mid]!=arr[mid+1] && arr[mid]!=arr[mid-1])
+				return arr[mid];
+			else
+			{
+				//firstOccurance secondOccurance
+				int fo,so;
+				if(arr[mid]==arr[mid+1])
+				{
+					fo=mid;
+					so=mid+1;
+				}
+				else
+				{
+					fo=mid-1;
+					so=mid;
+				}
+				if(fo%2==0)
+				{
+					low = mid+1;
+				}
+				else
+				{
+					hi=mid-1;
+				}
+			}
+			
+		}
+		
+		return -1;
+	}
+
+}
