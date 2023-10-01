@@ -1,0 +1,33 @@
+/*You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once. Find this single element that appears only once.
+
+Follow up: Your solution should run in O(logn) time and O(1) space.
+
+Input Format
+
+The first line of input contains 
+N, number of elements in array
+The second line of input contains 
+N space-separated integers, nums[1], nums[2], ......... nums[N]
+Constraints
+
+1 ≤ N≤10^5
+0≤nums[i] ≤10^5
+Output Format
+
+Print the element which appears exactly once.
+Sample Input 0
+
+7
+3 3 7 7 10 11 11
+
+Sample Output 0
+
+10
+
+Example
+Input
+7
+3 3 7 7 10 11 11
+Output
+10
+*/
