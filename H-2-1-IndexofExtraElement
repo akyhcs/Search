@@ -1,0 +1,101 @@
+/*
+Given two sorted arrays of distinct elements. There is only 1 difference between the arrays. 
+First array has one element extra added in between. Find the index of the extra element.
+Input Format
+The first line contains a single integer N.
+The second line contains N space-separated integers 
+A[0],A[1],...A[N−1] array numbers.
+The third line contains N−1 space-separated integers B[0],B[1],...B[N−2] array numbers.
+Constraints
+2 ≤ N ≤ 10^5
+1≤A[i],B[i] ≤ 10^6
+Output Format
+
+Print index of extra element
+Sample Input 1
+
+7
+2 4 6 8 9 10 12
+2 4 6 8 10 12
+
+Sample Output 1
+4
+Explanation
+In the second array, 9 is missing and its index in the first array is 4.
+Example
+Input
+7
+2 4 6 8 9 10 12
+2 4 6 8 10 12
+Output
+4
+*/
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+	InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int arrSize = Integer.parseInt(bufferedReader.readLine().trim());
+		int arrOne[] = new int[arrSize];
+		int arrTwo[] = new int[arrSize-1];
+		int k = 0;
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			arrOne[k++] = Integer.parseInt(str);
+		}
+		k=0;
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			arrTwo[k++] = Integer.parseInt(str);
+		}
+		if(arrOne[0]!=arrTwo[0])
+		{
+			System.out.println(0);
+		}
+		else if(arrOne[arrOne.length-1]!=arrTwo[arrTwo.length-1])
+		{
+			System.out.println(arrOne.length-1);
+		}
+		else {
+			int missingNuminArrTwo = binarySearch(arrTwo, arrOne);
+			System.out.println(missingNuminArrTwo);
+		}
+		
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static int binarySearch(int[] arrTwo, int[] arrOne) {
+		int low = 0;
+		int hi = arrTwo.length-1;
+		while(low<hi)
+		{
+			int mid = low + (hi-low)/2;
+			
+			if(arrOne[mid]==arrTwo[mid])
+			{
+				if(arrOne[mid+1]!=arrTwo[mid+1])
+					return mid+1;
+				else
+				{
+					low = mid+1;
+				}
+			}
+			else//they are not equal but if previous indx were equal then this mid is answer
+			{
+			    if(arrOne[mid-1]==arrTwo[mid-1])
+					    return mid;
+				hi=mid-1;
+			}
+		}
+		return -1;
+	}
+
+}
