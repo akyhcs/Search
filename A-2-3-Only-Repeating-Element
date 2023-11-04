@@ -63,7 +63,7 @@ public class Main
 		while(low<=hi)
 		{
 			int mid = low + (hi-low)/2;
-			if(arr[mid]==mid)//present on rt side of answer
+			if(arr[mid]==mid)//current value arr[mid] is  on rt side of answer
 			{
 				hi = mid-1;
 			}
@@ -73,7 +73,7 @@ public class Main
 				{
 					return arr[mid];
 				}
-				// else if(arr[mid]+1==mid)//present on the left side of element
+				// else if(arr[mid]+1==mid)//current value arr[mid] is present on the left side of ans
 				// {
 					low=mid+1;
 				// }
