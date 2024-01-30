@@ -16,16 +16,30 @@ class Solution {
     }
     	private static int binarySearch(int low, int hi, int[] arr) {
 			
-		while (low <= hi) {			
+		 while (low <= hi) {			
 			int mid = low + (hi - low) / 2;
-			if (mid>0&&mid<arr.length&&arr[mid] > arr[mid + 1] && arr[mid] > arr[mid - 1]) {
+			/*
+			if(mid==0 && arr[mid]> arr[mid+1])
+			{
 				return mid;
-			} else if (mid!=0 && arr[mid] < arr[mid - 1]) {
-				hi = mid - 1;// , arr);
-			} else if(mid+1!=arr.length)
-				{
-					low = mid + 1;// , hi, arr);
-				}
+			}
+			else if(mid==arr.length-1 && arr[mid] > arr[mid-1])
+			{
+				return mid;
+			}
+			*/
+			 if(arr[mid]>arr[mid+1] && arr[mid] > arr[mid-1])
+			{
+				return mid;
+			}
+			else if(arr[mid+1] > arr[mid])//move to right
+			{
+				low = mid+1;
+			}
+			else { // move to left
+				hi = mid-1;
+			}
+			
 		}
 		return -1;
 }
