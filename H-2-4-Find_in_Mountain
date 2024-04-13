@@ -1,0 +1,87 @@
+https://leetcode.com/problems/find-in-mountain-array/submissions/1165481942/
+
+/**
+ * // This is MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * interface MountainArray {
+ *     public int get(int index) {}
+ *     public int length() {}
+ * }
+ */
+ 
+class Solution {
+    public int findInMountainArray(int target, MountainArray mountainArr) {
+
+        //find pivot which divides array in P1, P2
+        int lo = 0;
+        int hi = mountainArr.length()-1;
+        int mid = 0;
+        int pivot  = -1;
+        int k = -1;
+        while(lo<=hi)
+        {
+            mid = lo + (hi-lo)/2;
+            //System.out.println(mid+"***********************");
+            if( (mountainArr.get(mid)>mountainArr.get(mid+1)) && (mountainArr.get(mid)>mountainArr.get(mid-1)))
+            { 
+                pivot = mid;
+                break;
+            }
+            //mid < mountainArr.length()-1 &&
+            if( mountainArr.get(mid) > mountainArr.get(mid+1))//mid is on P2
+            {
+                hi = mid-1;//move to P1
+            }
+            else
+            {   
+                 
+                lo = mid+1; //move to right side P2
+            }
+        }
+        System.out.println(pivot+"--------------");
+        //if(target>mountainArr.get(0) && target< mountainArr.get(pivot))
+        if(target > mountainArr.get(pivot))
+        {
+            return -1;
+        }
+            k = binarySearchIncreasingOrder(0,pivot,target,mountainArr);
+        if(k!=-1)
+            return k;
+        else
+        {
+            return binarySearchDecreasingOrder(pivot+1,mountainArr.length()-1,target,mountainArr);
+        }
+        // return k!=-1 ? k : 
+        
+    }
+    public static int binarySearchDecreasingOrder(int lo,int hi, int target,MountainArray mountainArr)
+    {
+        while(lo<=hi)
+       {
+          int mid = lo + (hi-lo)/2;
+           if(target==mountainArr.get(mid))
+            return mid;
+            else if(target > mountainArr.get(mid))
+                hi = mid-1;//move to left
+            else
+                lo = mid+1;//move to right
+       }
+       
+        return -1;
+    }
+   public static int binarySearchIncreasingOrder(int lo,int hi, int target,MountainArray mountainArr)
+   {
+       while(lo<=hi)
+       {
+          int mid = lo + (hi-lo)/2;
+          //System.out.println(mid);
+           if(target==mountainArr.get(mid))
+                {return mid;}
+           else if(target > mountainArr.get(mid))//move to right
+                lo = mid+1;
+            else
+                hi = mid-1;//move to left
+       }
+       return -1;
+   }
+}
