@@ -1,0 +1,28 @@
+//https://leetcode.com/problems/h-index-ii/submissions/1195571520/
+// https://leetcode.com/problems/search-a-2d-matrix/description/ ========> H-2-3
+
+
+class Solution {
+    public int hIndex(int[] citations) {
+        int l=0,r=citations.length-1,h=0;
+       while(l<=r){
+            int mid=(l+r)/2;
+            if(citations.length-mid<=citations[mid]){
+                h=citations.length-mid;
+                r=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return h;
+      /*  for(int i = citations.length-1;i>=0;i--)
+        {
+            if(citations[i]>=h)
+            {
+                ++h;
+            }
+        }
+    return  h-1;*/
+    }
+}
