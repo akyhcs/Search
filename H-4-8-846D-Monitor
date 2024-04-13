@@ -1,0 +1,99 @@
+// package com.prac.search;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+// https://codeforces.com/problemset/problem/846/D
+public class Monitor {
+
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int n,m,k,q;
+		String firstLineInput[] = bufferedReader.readLine().split(" ");
+		
+		n = Integer.parseInt(firstLineInput[0]);
+		m = Integer.parseInt(firstLineInput[1]);
+		k = Integer.parseInt(firstLineInput[2]);
+		q = Integer.parseInt(firstLineInput[3]);
+		int x[]  = new int[q];
+		int y[]  = new int[q];
+		int moment[]  = new int[q];
+		int lowMoment = Integer.MAX_VALUE;
+		int hiMoment = Integer.MIN_VALUE;
+		int i = 0;
+		while (i<q) {
+			String testCaseInput[] = bufferedReader.readLine().split(" ");
+			x[i] = Integer.parseInt(testCaseInput[0]);
+			y[i] = Integer.parseInt(testCaseInput[1]);
+			moment[i] = Integer.parseInt(testCaseInput[2]);
+			lowMoment = getMin(moment[i],lowMoment);
+			hiMoment = getMax(moment[i],hiMoment);
+			i++;
+		}
+		//System.out.println(lowMoment+"------"+hiMoment);
+		boolean isMonitorBroken = false;
+		while(lowMoment<=hiMoment)
+		{
+			int mid = lowMoment + (hiMoment - lowMoment)/2;
+			if(isMonitorBroken(m,n,x,y,moment,mid,k))
+			{
+				if(!isMonitorBroken(m,n,x,y,moment,mid-1,k))
+					{
+						isMonitorBroken = true;
+						System.out.println(mid);
+						break;
+					}
+				hiMoment = mid - 1;
+				
+			}
+			else
+			{
+				lowMoment = mid+1;
+			}
+		}
+		if(isMonitorBroken==false)
+		{
+			System.out.println(-1);
+		}
+		
+
+	}
+
+	private static boolean isMonitorBroken(int m, int n, int[] x, int[] y, int[] moment, int mid,int k) {
+		
+		//for each moment create a new matrix and fill the matrix only upto current moment
+		int pixelinMonitor[][] = new int[n][m];
+		int sum[][] = new int[n+1][m+1];
+		for(int i = 0;i<moment.length;i++)
+		{
+			if(moment[i]<=mid)
+			{
+				pixelinMonitor[x[i]-1][y[i]-1] = 1;
+			}
+			
+		}
+		for(int i = 1;i<=n;i++)
+		{
+			for(int j =1;j<=m;j++)
+			{
+				sum[i][j] = pixelinMonitor[i-1][j-1] + sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1];
+				
+				if(i>=k && j>=k && sum[i][j] + sum[i-k][j-k] - sum[i-k][j] - sum[i][j-k] == k*k)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private static int getMax(int i, int hiMoment) {
+		
+		return i>hiMoment?i:hiMoment;
+	}
+
+	private static int getMin(int i, int lowMoment) {
+		
+		return i<lowMoment?i:lowMoment;
+	}
+
+}
