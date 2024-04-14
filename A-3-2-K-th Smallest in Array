@@ -1,0 +1,85 @@
+/*
+Given an array arr[] of size N having no duplicates and an integer K, the task is to find the Kth smallest element from the array in constant extra space and the array can’t be modified.
+
+Input Format
+
+The first line contains 
+N, total number of elements
+The second line contains 
+N space-separated integers 
+arr[1],arr[2],arr[3],.....,arr[N]
+The third line contains 
+K
+Constraints
+1 ≤ N ≤10^5
+1 ≤arr[i]≤ 10^6
+1 ≤ K≤N
+Output Format
+Print the k-smallest element
+Sample Input 1
+6
+7 10 4 3 20 15
+4
+Sample Output 1
+10
+Explanation
+4−thsmallest element in the array is 10
+.*/
+
+// package com.prac.search;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader  = new BufferedReader(inputStreamReader);
+		
+		int sizeOfArr = Integer.parseInt(bufferedReader.readLine().trim());
+		int arr[] = new int[sizeOfArr];
+		int l = -1;
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			arr[++l] = Integer.parseInt(str); 
+		}
+		int k = Integer.parseInt(bufferedReader.readLine().trim());
+		int min = arr[0];
+		int max = min;
+		for(int i =1;i<arr.length;i++)
+		{
+			min = arr[i]<min ? arr[i] : min;
+			max = arr[i] > max?arr[i] : max;
+		}
+		while(min<=max)
+		{
+			int mid = min + (max-min)/2;
+			int count = getCountofElementLessorEquall(mid,arr);
+			if(count<k)
+			{
+				min = mid + 1;
+				
+			}
+			else
+			{
+				count = getCountofElementLessorEquall(mid-1,arr);
+				if(count<k) { System.out.println(mid);break;}
+				max = mid - 1;
+				
+			}
+		}
+	}
+
+	private static int getCountofElementLessorEquall(int mid,int arr[]) {
+		int count = 0;
+		for(int i = 0;i<arr.length;i++)
+		{
+			if(arr[i]<=mid) count++;
+		}
+		return count;
+	}
+
+}
+//similar question is avaliable in https://leetcode.com/problems/kth-largest-element-in-an-array/
