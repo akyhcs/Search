@@ -1,0 +1,62 @@
+
+//https://leetcode.com/problems/find-k-th-smallest-pair-distance/
+
+class Solution {
+    public int smallestDistancePair(int[] num, int k) {
+      return  KthSmallestPair.getkthSmallestPair(num,k);
+    }
+}
+public class KthSmallestPair {
+
+	public static int getkthSmallestPair(int[] num, int k) {
+		// sort the arr
+		Arrays.sort(num);
+		int maxDis = num[num.length-1] - num[0];
+		// min distance will be in between 
+		int minDis = Integer.MAX_VALUE;
+		for(int i = 1;i<num.length;i++)
+		{
+			minDis = num[i] - num[i-1] < minDis ? num[i] - num[i-1] : minDis;
+		}
+
+		while (minDis <= maxDis) {
+            if(maxDis==minDis)
+				return maxDis;
+			int midDistance = minDis + (maxDis-minDis)/2;
+			int count = getCount(num,midDistance);
+        
+			if(count<k)
+				minDis= midDistance + 1;
+			else
+			{
+				count = getCount(num,midDistance-1);
+				if(count<k)
+					return midDistance;
+				maxDis = midDistance-1;
+			}
+			
+		}
+		return minDis;
+	}
+	//check how many points are less or equall to midDistance;
+	public static int getCount(int[] num, int midDistance) {
+		int i = 0;
+		int j = i;
+		int totalCount = 0;
+		while (i<num.length) {
+			if(i==j) j = i+1;
+			while (j<num.length && num[j]-num[i] <= midDistance) {
+				j++;
+			}
+			j = j-1; //because at jth value it has failed so one step back
+			int totalNumofpointParticipated = j - i + 1;
+			int totalDistanceEncountered = totalNumofpointParticipated - 1 ;
+			totalCount +=totalDistanceEncountered;
+			++i;
+			
+		}
+		
+		return totalCount;
+	}
+
+}
