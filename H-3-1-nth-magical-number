@@ -1,0 +1,50 @@
+
+//https://leetcode.com/problems/nth-magical-number/submissions/1212528523/
+
+class Solution {
+  	public int nthMagicalNumber(int n, int a, int b) {
+        int mod = (int) (Math.pow(10, 9) + 7);
+		long low = getMin(a,b);//a<b
+		long hi = n*getMin(a, b);
+		long lcm = getLCM(a,b);
+        long count = -1;
+        int ans = -1;
+		while (low<=hi) {
+			long mid = low + (hi-low)/2;
+			count = mid/a + mid/b - mid/lcm;
+			if(count==n){ ans=(int)(mid%mod); hi = mid-1; }
+			else if(count < n) { low = mid +1  ;}
+			else {hi = mid-1;}
+		}
+		return ans;
+        
+    }
+
+	private long getLCM(long a, long b) {
+		
+		long min = getMin(a, b);
+		long max = getMax(a,b);
+		return min*(max/getHCF(a, b));
+	}
+
+	private long getMax(long a, long b) {
+		
+		return a>b?a:b;
+	}
+
+	private long getHCF(long a, long b) {
+		long c = -1l;
+		while((c=a%b)!=0)
+		{
+			a=b;
+			b=c;
+		}
+		return b;
+	}
+
+	private long getMin(long a, long b) {
+		
+		return a<b?a:b;
+	}
+
+}
