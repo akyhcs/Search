@@ -44,7 +44,6 @@ public class KthSmallestPair {
 		int j = i;
 		int totalCount = 0;
 		while (i<num.length) {
-			if(i==j) j = i+1;
 			while (j<num.length && num[j]-num[i] <= midDistance) {
 				j++;
 			}
