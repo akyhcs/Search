@@ -1,0 +1,74 @@
+package com.prac.search;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+//https://codeforces.com/problemset/problem/371/C?locale=en
+public class CHamburger {
+
+    public static void main(String[] args) throws IOException {
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+        String recipe = bufferedReader.readLine().trim();
+
+        int[] required = new int[3]; // B, S, C
+
+        for (int i = 0; i < recipe.length(); i++) {
+            char ingredient = recipe.charAt(i);
+            if (ingredient == 'B') {
+                required[0]++;
+            } else if (ingredient == 'S') {
+                required[1]++;
+            } else if (ingredient == 'C') {
+                required[2]++;
+            }
+        }
+
+        int[] available = new int[3];
+        String[] currentInput = bufferedReader.readLine().split(" ");
+
+        for (int i = 0; i < 3; i++) {
+            available[i] = Integer.parseInt(currentInput[i]);
+        }
+
+        int[] price = new int[3];
+        currentInput = bufferedReader.readLine().split(" ");
+
+        for (int i = 0; i < 3; i++) {
+            price[i] = Integer.parseInt(currentInput[i]);
+        }
+
+        long totalMoney = Long.parseLong(bufferedReader.readLine().trim());
+        bufferedReader.close();
+
+        // Binary search for the maximum number of hamburgers
+        long left = 0;
+        long right = (long) 1e13;
+        while (left < right) {
+            long mid = left + (right - left + 1) / 2;
+            if (canMakeHamburgers(required, available, price, totalMoney, mid)) {
+                left = mid;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        System.out.println(left);
+    }
+
+    private static boolean canMakeHamburgers(int[] required, int[] available, int[] price, long totalMoney, long count) {
+        long totalCost = 0;
+
+        for (int i = 0; i < required.length; i++) {
+            long needed = count * required[i];
+            long toBuy = Math.max(0, needed - available[i]);
+            totalCost += toBuy * price[i];
+            if (totalCost > totalMoney) {
+                return false;
+            }
+        }
+
+        return totalCost <= totalMoney;
+    }
+}
