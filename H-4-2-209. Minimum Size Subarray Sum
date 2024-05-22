@@ -1,0 +1,47 @@
+//https://leetcode.com/problems/minimum-size-subarray-sum/description/
+
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        MinimumSizeSubarraySum minimumSizeSubarraySum = new MinimumSizeSubarraySum();
+        return minimumSizeSubarraySum.getSubArrSize(target,nums);
+    }
+}
+
+public class MinimumSizeSubarraySum {
+
+	
+
+	public int getSubArrSize(int target, int[] nums) {
+		int left = 1,right = nums.length,result = Integer.MAX_VALUE;
+		while (left<=right) {
+			int mid = left + (right - left )/2;	
+			if(checkMinSizeWindow(mid,nums,target)) //>= ans on right side of answer
+			{
+                result = Math.min(mid, result);
+				right = mid - 1;
+			}
+			else // on left side of answer
+			{
+                    left = mid+1;
+				
+			}
+		}
+		return result==Integer.MAX_VALUE?0:result;
+    }
+	private boolean checkMinSizeWindow(int windowSize, int[] nums, long  target) {
+		long sum = 0l;
+		for(int  i =0;i<windowSize;i++)
+		{
+			sum = sum + nums[i];
+		}
+		if(sum >= target) return true;
+		for(int i = windowSize;i<nums.length;i++)
+		{
+			sum = sum - nums[i-windowSize];
+			sum = sum + nums[i];
+			if(sum >= target) return true;
+		}
+		return false;
+	}
+
+}
