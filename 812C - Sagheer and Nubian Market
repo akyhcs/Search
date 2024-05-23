@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+//https://codeforces.com/problemset/problem/812/C
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] firstLine = br.readLine().split(" ");
+        int n = Integer.parseInt(firstLine[0]); // Number of souvenirs
+        long sagheerBudget = Long.parseLong(firstLine[1]); // Sagheer's budget
+
+        String[] pricesStr = br.readLine().split(" ");
+        long[] prices = new long[n];
+        for (int i = 0; i < n; i++) {
+            prices[i] = Long.parseLong(pricesStr[i]);
+        }
+
+        long left = 1; // Minimum number of items Sagheer can buy
+        long right = n; // Maximum number of items Sagheer can buy
+        long maxItems = 0; // Maximum number of items Sagheer can buy
+        long totalCost = 0; // Total cost for buying maxItems items
+
+        while (left <= right) {
+            long mid = left + (right - left) / 2;
+            long cost = calculateTotalCost(prices, mid);
+
+            if (cost <= sagheerBudget) {
+                maxItems = mid;
+                totalCost = cost;
+                left = mid + 1; // Look for higher number of items
+            } else {
+                right = mid - 1; // Look for lower number of items
+            }
+        }
+
+        System.out.println(maxItems + " " + totalCost);
+    }
+
+    // Function to calculate the total cost for buying 'numItems' items
+    private static long calculateTotalCost(long[] prices, long numItems) {
+        long[] newPrices = new long[prices.length];
+        for (int i = 0; i < prices.length; i++) {
+            newPrices[i] = prices[i] + (i + 1) * numItems;
+        }
+        Arrays.sort(newPrices);
+
+        long totalCost = 0;
+        for (int i = 0; i < numItems; i++) {
+            totalCost += newPrices[i];
+        }
+        return totalCost;
+    }
+}
