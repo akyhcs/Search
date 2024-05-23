@@ -1,0 +1,74 @@
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        return CapacityToShipPackagesWithinDDays.getMinweight(weights,days);
+    }
+}
+// https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+
+public class CapacityToShipPackagesWithinDDays {
+
+	/*public static void main(String[] args) {
+	int	weights[] = {1,2,3,4,5,6,7,8,9,10}, days = 5;
+		int minWeight = getMinweight(weights,days);
+		System.out.println(minWeight);
+	}*/
+
+	public static int getMinweight(int[] weights, int days) {
+		
+		int minWeight = getMaxWeight(weights);
+		int maxWeight = getSumofWeight(weights);
+		int weight = minWeight;
+		while (minWeight<=maxWeight) {
+			int midWeight = minWeight + (maxWeight - minWeight)/2;
+			
+			if(isMinWeightPossible(midWeight,weights,days))//right side of ans >=
+			{
+				weight = midWeight;
+				maxWeight = midWeight - 1;
+			}
+			else // left side of answer
+			{
+				minWeight = midWeight + 1;
+			}
+		}
+		return weight;
+		
+	}
+
+	private static boolean isMinWeightPossible(int weight, int[] weights, int days) {
+		int currentWeight = weights[0];
+		int countDay = 1;;
+		for(int i = 1;i<weights.length;i++)
+		{
+			if(currentWeight + weights[i] > weight)
+			{
+				currentWeight = weights[i];
+				countDay++;
+			}
+			else {
+				currentWeight = currentWeight +  weights[i];
+			}
+		}
+		return countDay<=days;
+	}
+
+	private static int getSumofWeight(int[] weights) {
+		int sum = weights[0];
+		for(int i =1 ;i<weights.length;i++)
+		{
+			sum = sum + weights[i];
+		}
+		return sum;
+	}
+	
+
+	private static int getMaxWeight(int[] weights) {
+		int max = weights[0];
+		for(int i =1 ;i<weights.length;i++)
+		{
+			max = max<weights[i]?weights[i]:max;
+		}
+		return max;
+	}
+
+}
