@@ -1,0 +1,49 @@
+class Solution {
+    public int maxSideLength(int[][] mat, int threshold) {
+      	//int mat[][] = {{},{}};
+		//int threshold = 4;
+		
+		int prefixSum[][] = new int[mat.length+1][mat[0].length+1];
+		for(int i = 1;i<prefixSum.length;i++)
+		{
+			for(int j = 1;j<prefixSum[i].length;j++)
+			{
+				prefixSum[i][j] = mat[i-1][j-1] + prefixSum[i-1][j] + prefixSum[i][j-1] - prefixSum[i-1][j-1];
+			}
+		}
+		int low = 0;
+		int high = Math.min(mat.length, mat[0].length);
+		int maxLength = 0;
+		while(low<=high)
+		{
+			int mid = low + (high-low)/2;
+			
+			if(isValid(mid,prefixSum,threshold))//on left side of answer keep moving to maximize
+			{
+				maxLength = mid;
+				low = mid+1;
+			}
+			else
+			{
+				high = mid-1;
+			}
+		}
+        return maxLength;
+	
+    }
+	private static boolean isValid(int length, int[][] prefixSum, int threshold) {
+		for(int row = length;row<prefixSum.length;row++)
+		{
+			for(int col = length;col<prefixSum[row].length;col++)
+			{
+				int sum = prefixSum[row][col] 
+						- prefixSum[row-length][col] 
+						- prefixSum[row][col-length]
+						+ prefixSum[row-length][col-length];
+				if(sum<=threshold) return true;
+			}
+		}
+		return false;
+	}
+
+}
