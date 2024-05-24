@@ -1,0 +1,72 @@
+// package com.prac.search;
+//https://codeforces.com/problemset/problem/670/D1
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class MagicPowder {
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int ingredient, magicPowderinGrams;
+		String currentLineInput[] = bufferedReader.readLine().trim().split(" ");
+		ingredient = Integer.parseInt(currentLineInput[0]);
+		magicPowderinGrams = Integer.parseInt(currentLineInput[1]);
+		
+		int minimumIngredienttoMakeOneCokkie[] = new int[ingredient];
+		currentLineInput = bufferedReader.readLine().trim().split(" ");
+		for(int  i = 0 ;i<ingredient;i++)
+		{
+			minimumIngredienttoMakeOneCokkie[i] = Integer.parseInt(currentLineInput[i]);
+		}
+		int stockofIngredientinKitchen[] = new int[ingredient];
+		currentLineInput = bufferedReader.readLine().trim().split(" ");
+		for(int  i = 0 ;i<ingredient;i++)
+		{
+			stockofIngredientinKitchen[i] = Integer.parseInt(currentLineInput[i]);
+		}
+		inputStreamReader.close();
+		bufferedReader.close();
+		int countofCookieLow = 0;
+		int countofCookieHigh = 2000;
+		int numberofCookie = 0;
+		
+		while(countofCookieLow <= countofCookieHigh )
+		{
+			
+			int countofCookieMid = countofCookieLow + (countofCookieHigh - countofCookieLow )/2;
+//			System.out.println(countofCookieHigh+"---------------------- "+countofCookieLow+" ********************** "+ countofCookieMid);
+//			Thread.sleep(1000);
+			if(isNumberofCookiePossible(countofCookieMid,magicPowderinGrams,minimumIngredienttoMakeOneCokkie,stockofIngredientinKitchen))
+			{
+				numberofCookie = Math.max(countofCookieMid, numberofCookie);
+				countofCookieLow = countofCookieMid + 1;
+			}
+			else
+			{
+				countofCookieHigh = countofCookieMid - 1;
+			}
+//			System.out.println("=========================");
+		}
+		System.out.println(numberofCookie);
+		
+	}
+
+	private static boolean isNumberofCookiePossible(int countofCookie, int magicPowderinGrams,
+			int[] minimumIngredienttoMakeOneCokkie, int[] stockofIngredientinKitchen) {
+		
+		for(int i = 0;i<minimumIngredienttoMakeOneCokkie.length;i++)
+		{
+			int gramsRequiredforCurrentIngredient = countofCookie*minimumIngredienttoMakeOneCokkie[i];
+			int extraRequirementofCurrentIngredient = Math.max(0, gramsRequiredforCurrentIngredient-stockofIngredientinKitchen[i]);
+			magicPowderinGrams = magicPowderinGrams - extraRequirementofCurrentIngredient;
+			if(magicPowderinGrams<0) // magic powder exhaust
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+}
