@@ -1,5 +1,5 @@
 --matrix is only sorted row wise  
-https://leetcode.com/problems/kth-smallest-number-in-multiplication-table/description/ -> H-3-3
+https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/
 /*
 K-th Smallest in Matrix
 markAsDonemarkForRevisionmarkForLater
