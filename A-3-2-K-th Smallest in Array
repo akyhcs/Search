@@ -83,3 +83,38 @@ public class Main {
 
 }
 //similar question is avaliable in https://leetcode.com/problems/kth-largest-element-in-an-array/
+
+public class KthSmallestBinarySearch {
+    public static int kthSmallest(int[] arr, int K) {
+        int left = Integer.MAX_VALUE, right = Integer.MIN_VALUE;
+        
+        // Find the range of the elements
+        for (int num : arr) {
+            if (num < left) left = num;
+            if (num > right) right = num;
+        }
+        
+        // Binary search within the range
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            int count = 0, countEqual = 0;
+            
+            for (int num : arr) {
+                if (num < mid) count++;
+                else if (num == mid) countEqual++;
+            }
+            
+            // Determine the appropriate boundary adjustments
+            if (count < K && count + countEqual >= K) {
+                return mid; // Found the Kth smallest
+            } else if (count >= K) {
+                right = mid; // Move left
+            } else {
+                left = mid + 1; // Move right
+            }
+        }
+        
+        return left; // The point where left == right
+    }
+}
+
