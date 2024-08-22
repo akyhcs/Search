@@ -148,3 +148,129 @@ min = min<mat[row][indexOfFirstColumn]?min:mat[row][indexOfFirstColumn];
 	}
 
 }
+================================================================================================================================================================
+// package com.prac.search;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int n = Integer.parseInt(bufferedReader.readLine().trim());
+		//System.out.println(n+"-------------");
+		int mat[][] = new int[n][n];
+		for(int i = 0;i<n;i++)
+		{
+			int j=0;
+			for(String str : bufferedReader.readLine().trim().split(" "))
+			{
+					mat[i][j++] = Integer.parseInt(str);	
+			}
+		//	display(mat);
+		}
+		//display(mat);
+		int k = Integer.parseInt(bufferedReader.readLine().trim());
+		int max = mat[0][0];
+		int min = mat[0][0];
+		int indexOfFirstColumn = 0;
+		int indexofLastColumn = mat[0].length;
+		/*for(int row = 0;row<mat.length;row++)
+		{
+min = min<mat[row][indexOfFirstColumn]?min:mat[row][indexOfFirstColumn];
+			max = max>mat[row][indexofLastColumn-1]?max:mat[row][indexofLastColumn-1];
+		}*/
+		min = mat[0][0];
+		max = mat[mat.length-1][mat.length-1];
+		while (min<max) {
+			int mid = min + (max-min)/2;
+			int count =  countLessOrEqual(mat,mid);
+			if(count<k)
+			{
+				min = mid+1;
+			}
+			else
+			{
+				max = mid;
+			}
+		}
+		System.out.println(min);
+		bufferedReader.close();
+		inputStreamReader.close();
+		
+		}
+		
+		
+	
+
+	private static void display(int[][] mat) {
+		System.out.println("---------------------------------------");
+		for(int i =0 ;i<mat.length;i++)
+		{
+			for(int j = 0 ;j<mat[i].length;j++)
+			{
+				System.out.print(mat[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+	}
+    	private static int countLessOrEqual(int[][] matrix, int x) {
+		int count = 0;
+		int n = matrix.length;
+		int row = n - 1;
+		int col = 0;
+
+		while (row >= 0 && col < n) {
+			if (matrix[row][col] <= x) {
+				count += row + 1;
+				col++;
+			} else {
+				row--;
+			}
+		}
+
+		return count;
+	}
+	private static int getCountofElementLessorEquall(int target, int[][] mat) {
+		//binary search
+		//System.out.println(target+"------------");
+		int count = 0;
+		for(int row = 0;row<mat.length;row++)
+		{
+			int minColumn = 0;
+			int maxColumn = mat[row].length-1;
+			boolean isFound = false;
+			while(minColumn<=maxColumn)
+			{
+				int midCol = minColumn + (maxColumn-minColumn)/2;
+				if(mat[row][midCol]==target)
+				{
+					count=count+(midCol+1);
+					isFound=true;
+					break;
+				}
+				else if(mat[row][midCol]<target)
+				{
+					minColumn = midCol+1;
+				}//else 
+				else
+				{
+					maxColumn = midCol-1;
+				}//else
+			}//while
+			if(!isFound)
+			{
+				count = count + (maxColumn+1); //count = count + (minColumn);
+			}
+		}
+	//	System.out.println(count);
+		return count;
+	}
+
+}
+
