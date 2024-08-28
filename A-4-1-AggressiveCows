@@ -1,0 +1,49 @@
+import java.util.Arrays;
+
+public class AggressiveCows {
+    public static void main(String[] args) {
+        int[] positions = {1, 2, 4, 8, 9};
+        int cows = 3;
+        System.out.println("Maximum minimum distance: " + maxMinDistance(positions, cows));
+    }AggressiveCows
+
+    public static int maxMinDistance(int[] positions, int cows) {
+        Arrays.sort(positions);  // Sort the positions
+
+        int low = 1;  // The smallest possible distance
+        int high = positions[positions.length - 1] - positions[0];  // The largest possible distance
+
+        int result = 0;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (canPlaceCows(positions, cows, mid)) {
+                result = mid;  // mid is a feasible solution, try to find a larger one
+                low = mid + 1;
+            } else {
+                high = mid - 1;  // mid is too large, reduce the distance
+            }
+        }
+
+        return result;
+    }
+
+    public static boolean canPlaceCows(int[] positions, int cows, int minDist) {
+        int count = 1;  // Place the first cow in the first stall
+        int lastPosition = positions[0];
+
+        for (int i = 1; i < positions.length; i++) {
+            if (positions[i] - lastPosition >= minDist) {
+                count++;  // Place the next cow
+                lastPosition = positions[i];
+            }
+
+            if (count == cows) {
+                return true;  // All cows have been placed successfully
+            }
+        }
+
+        return false;  // Not all cows could be placed with at least minDist distance
+    }
+}
