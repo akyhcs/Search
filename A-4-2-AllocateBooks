@@ -1,56 +1,39 @@
-public class AllocateBooks {
-    public static void main(String[] args) {
-        int[] books = {12, 34, 67, 90};
-        int students = 2;
-        System.out.println("Minimum of the maximum pages allocated: " + findPages(books, students));
-    }
+class Solution {
+	public int splitArray(int[] nums, int m) {
+		int max = 0, sum = 0;
+		for (int num : nums) {
+			max = Math.max(max, num);
+			sum += num;
+		}
 
-    public static int findPages(int[] books, int students) {
-        if (books.length < students) {
-            return -1;
-        }
+		int left = max, right = sum;
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+			if (canSplit(nums, m, mid)) {
+				right = mid;
+			} else {
+				left = mid + 1;
+			}
+		}
+		return left;
+	}
 
-        int low = Integer.MAX_VALUE;
-        int high = 0;
-
-        // Calculate the lower and upper bounds for binary search
-        for (int pages : books) {
-            low = Math.min(low, pages); // max element in the array
-            high += pages;              // sum of all elements in the array
-        }
-
-        int result = -1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-
-            if (isFeasible(books, students, mid)) {
-                result = mid;   // mid is a possible answer, check if there is a better minimum
-                high = mid - 1; // try to minimize further
-            } else {
-                low = mid + 1;  // mid is too small, try larger values
-            }
-        }
-
-        return result;
-    }
-
-    public static boolean isFeasible(int[] books, int students, int maxPages) {
-        int studentCount = 1;
-        int pagesAllocated = 0;
-
-        for (int pages : books) {
-            if (pagesAllocated + pages > maxPages) {
-                studentCount++;
-                pagesAllocated = pages;
-
-                if (studentCount > students) {
-                    return false;
-                }
-            } else {
-                pagesAllocated += pages;
-            }
-        }
-
-        return true;
-    }
+	private boolean canSplit(int[] nums, int m, int maxSum) {
+		int count = 1, currentSum = 0;
+		for (int num : nums) {
+			if (currentSum + num > maxSum) {
+				count++;
+				currentSum = num;
+				if (count > m) {
+					return false;
+				}
+			} else {
+				currentSum += num;
+			}
+		}
+		return true;
+	}
 }
+///////////////////////
+
+https://leetcode.com/problems/split-array-largest-sum/
