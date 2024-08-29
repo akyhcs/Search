@@ -1,5 +1,5 @@
 import java.util.Arrays;
-
+///https://leetcode.com/problems/magnetic-force-between-two-balls/description/
 public class AggressiveCows {
     public static void main(String[] args) {
         int[] positions = {1, 2, 4, 8, 9};
