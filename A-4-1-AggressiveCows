@@ -10,7 +10,7 @@ public class AggressiveCows {
     public static int maxMinDistance(int[] positions, int cows) {
         Arrays.sort(positions);  // Sort the positions
 
-        int low = 1;  // The smallest possible distance
+        int low = 1;  // The smallest possible distance can never be zero because 2 cows cannot be in same stall
         int high = positions[positions.length - 1] - positions[0];  // The largest possible distance
 
         int result = 0;
