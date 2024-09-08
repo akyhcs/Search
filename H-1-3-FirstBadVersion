@@ -13,14 +13,7 @@ public class Solution extends VersionControl {
 					mid = l + (r-l)/2;
 					if(isBadVersion(mid))
 					{
-					/*	if(mid==0)
-							return mid;
-						else if(isBadVersion(mid-1)==false) return mid;
-							//return mid;
-						else
-*/
 							r = mid;
-						
 					}
 					else
 					{
