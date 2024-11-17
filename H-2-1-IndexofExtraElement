@@ -78,15 +78,9 @@ public class Main
 		while(low<=hi)
 		{
 			int mid = low + (hi-low)/2;
-			
 			if(arrOne[mid]==arrTwo[mid])
 			{
-				if(arrOne[mid+1]!=arrTwo[mid+1])
-					return mid+1;
-				else
-				{
 					low = mid+1;
-				}
 			}
 			else//they are not equal but if previous indx were equal then this mid is answer
 			{
