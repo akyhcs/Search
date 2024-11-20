@@ -82,6 +82,66 @@ public class Main {
 	}
 
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// package com.prac.search;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader  = new BufferedReader(inputStreamReader);
+		
+		int sizeOfArr = Integer.parseInt(bufferedReader.readLine().trim());
+		int arr[] = new int[sizeOfArr];
+		int l = -1;
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			arr[++l] = Integer.parseInt(str); 
+		}
+		int k = Integer.parseInt(bufferedReader.readLine().trim());
+		int min = arr[0];
+		int max = min;
+		for(int i =1;i<arr.length;i++)
+		{
+			min = arr[i]<min ? arr[i] : min;
+			max = arr[i] > max?arr[i] : max;
+		}
+		while(min<=max)
+		{
+			int mid = min + (max-min)/2;
+			int count = getCountofElementLessorEquall(mid,arr);
+			if(count<k)
+			{
+				min = mid + 1;
+				
+			}
+			else
+			{
+				count = getCountofElementLessorEquall(mid-1,arr);
+				if(count<k) { System.out.println(mid);break;}
+				max = mid - 1;
+				
+			}
+		}
+	}
+
+	private static int getCountofElementLessorEquall(int mid,int arr[]) {
+		int count = 0;
+		for(int i = 0;i<arr.length;i++)
+		{
+			if(arr[i]<=mid) count++;
+		}
+		return count;
+	}
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //similar question is avaliable in https://leetcode.com/problems/kth-largest-element-in-an-array/
 
 public class KthSmallestBinarySearch {
