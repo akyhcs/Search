@@ -111,23 +111,20 @@ public class Main {
 			min = arr[i]<min ? arr[i] : min;
 			max = arr[i] > max?arr[i] : max;
 		}
-		while(min<=max)
+		while(min<max)
 		{
 			int mid = min + (max-min)/2;
 			int count = getCountofElementLessorEquall(mid,arr);
 			if(count<k)
 			{
 				min = mid + 1;
-				
 			}
 			else
 			{
-				count = getCountofElementLessorEquall(mid-1,arr);
-				if(count<k) { System.out.println(mid);break;}
-				max = mid - 1;
-				
+				max = mid ;	
 			}
 		}
+		System.out.println(min);
 	}
 
 	private static int getCountofElementLessorEquall(int mid,int arr[]) {
@@ -140,7 +137,6 @@ public class Main {
 	}
 
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //similar question is avaliable in https://leetcode.com/problems/kth-largest-element-in-an-array/
 
