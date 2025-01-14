@@ -57,29 +57,22 @@ public class Main
 		inputStreamReader.close();
 	}
 
-	private static int getonlyRepeatingElemet(int[] arr) {
+		private static int getonlyRepeatingElemet(int[] arr) {
 		int low = 0;
 		int hi = arr.length-1;
-		while(low<=hi)
+		while(low<hi)
 		{
 			int mid = low + (hi-low)/2;
-			if(arr[mid]==mid)//current value arr[mid] is  on rt side of answer
+			if(arr[mid]==mid)//present on rt side of answer
 			{
 				hi = mid-1;
 			}
 			else
 			{
-				if(arr[mid]==arr[mid+1])//got the repeating element
-				{
-					return arr[mid];
-				}
-				// else if(arr[mid]+1==mid)//current value arr[mid] is present on the left side of ans
-				// {
-					low=mid+1;
-				// }
+				low=mid+1;
 			}
 		}
-		return -1;
+		return low;//low==hi
 	}
 
 }
