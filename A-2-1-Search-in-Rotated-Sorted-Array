@@ -1,6 +1,21 @@
 //https://leetcode.com/problems/search-in-rotated-sorted-array/description/
 public class Solution {
-   
+    // Function to find the pivot (smallest element index)
+    private int findPivot(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            // If mid element is greater than the last element, pivot is in the right half
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else { // Pivot is in the left half
+                right = mid;
+            }
+        }   
+        return left; // Pivot index
+    }
     // Function to perform binary search
     private int binarySearch(int[] nums, int left, int right, int target) {
         while (left <= right) {
