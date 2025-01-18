@@ -26,3 +26,32 @@ class Solution {
 }
 
 //https://leetcode.com/problems/search-a-2d-matrix/
+------_----------------------------------------------------
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // Edge-case checks
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        
+        int m = matrix.length;
+        int n = matrix[0].length;
+        
+        // Start from the top-right corner
+        int row = 0;
+        int col = n - 1;
+        
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] > target) {
+                col--;   // move left
+            } else {
+                row++;   // move down
+            }
+        }
+        
+        // Target not found
+        return false;
+    }
+}
