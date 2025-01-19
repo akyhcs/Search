@@ -1,61 +1,27 @@
 //https://leetcode.com/problems/kth-smallest-number-in-multiplication-table/submissions/1242539391/
 
 class Solution {
-    public int findKthNumber(int m, int n, int k) {
-        KthSmallestNumberMultiplicationTable kthSmallestNumberMultiplicationTable = new KthSmallestNumberMultiplicationTable();
-    //    if(m==9895 && n==28405 && k==100787757)
-    //     return 31666344;
-        return kthSmallestNumberMultiplicationTable.getkthSmallest(m,n,(long)k);
-    }
-}
+	public int findKthNumber(int m, int n, int k) {
+		int left = 1, right = m * n;
 
-public class KthSmallestNumberMultiplicationTable {
-
-
-	public int getkthSmallest(int m, int n, long k) {
-		// int mat[][] = new int[m][n];
-		// for(int i = 1;i<=m;i++)
-		// {
-		// 	for(int j = 1;j<=n;j++)
-		// 	{
-		// 		mat[i-1][j-1] = i*j;
-		// 	}
-		// }
-		//display(mat);
-		int min = 1;
-		int max = m*n;
-		while(min<=max)
-		{
-			int mid = min + (max-min)/2 ;
-			if(max==min)
-				return min;
-			int count = this.getCount(mid,m,n);
-			if(count<k)
-			{
-				min = mid+1;
-			}
-			else
-			{
-				count = this.getCount(mid-1, m,n);
-				if(count<k)
-					return (int)mid;
-				max = mid-1;
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+			if (countLessOrEqual(m, n, mid) >= k) {
+				right = mid;
+			} else {
+				
+                left = mid + 1;
 			}
 		}
 
-		return min;
+		return left;
 	}
 
-	public int getCount(long target, int m ,int n) {
+	private int countLessOrEqual(int m, int n, int x) {
 		int count = 0;
-		for(int currentRow =1 ;currentRow<=m;currentRow++)
-		{
-			int min = (int)Math.min(target/currentRow, n);
-            count += min;
+		for (int i = 1; i <= m; i++) {
+			count += Math.min(x / i, n);
 		}
 		return count;
 	}
-
-	
-
 }
